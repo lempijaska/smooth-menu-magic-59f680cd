@@ -70,7 +70,8 @@ const GeneralSettings = ({
       </div>
     </div>
   </div>
-);
+  );
+};
 
 const AccessibilitySettings = () => (
   <div className="space-y-6">
