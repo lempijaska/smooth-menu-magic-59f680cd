@@ -4,13 +4,26 @@ import Dock from "@/components/Dock";
 const Index = () => {
   return (
     <div
-      className="flex min-h-screen items-center justify-center bg-background"
+      className="relative flex min-h-screen items-center justify-center bg-background overflow-hidden"
       style={{
-        backgroundImage: "radial-gradient(circle, hsl(var(--muted-foreground) / 0.18) 1px, transparent 1px)",
-        backgroundSize: "20px 20px",
+        backgroundImage:
+          "radial-gradient(circle, hsl(var(--muted-foreground) / 0.18) 1px, transparent 1px)",
+        backgroundSize: "22px 22px",
       }}
     >
-      <div className="text-center">
+      {/* Ambient gradient blobs */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-24 -left-24 h-[420px] w-[420px] rounded-full opacity-30 blur-3xl"
+        style={{ background: "var(--gradient-primary)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-32 -right-24 h-[480px] w-[480px] rounded-full opacity-20 blur-3xl"
+        style={{ background: "var(--gradient-primary)" }}
+      />
+
+      <div className="relative text-center">
         <h1 className="text-4xl font-bold tracking-tight text-foreground">
           Drag the menu around
         </h1>
