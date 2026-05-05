@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 import { Settings, Accessibility, LayoutDashboard, X } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
@@ -193,14 +194,13 @@ const DockSettings = ({ open, onOpenChange, animationsEnabled, onAnimationsChang
 
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div
       ref={panelRef}
       className="fixed w-[560px] rounded-2xl border border-border bg-card shadow-2xl shadow-black/10 overflow-hidden z-[100]"
       style={{
         left: panelPos.x,
         top: panelPos.y,
-        animation: "scale-in 0.2s ease-out",
       }}
     >
       {/* Draggable header */}
@@ -252,7 +252,8 @@ const DockSettings = ({ open, onOpenChange, animationsEnabled, onAnimationsChang
           {renderContent()}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
