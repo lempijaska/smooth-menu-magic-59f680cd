@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 import { Settings, Accessibility, LayoutDashboard, X } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
