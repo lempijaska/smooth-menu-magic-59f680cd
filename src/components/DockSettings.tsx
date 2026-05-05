@@ -252,7 +252,8 @@ const DockSettings = ({ open, onOpenChange, animationsEnabled, onAnimationsChang
           {renderContent()}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
