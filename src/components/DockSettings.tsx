@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
-import { Settings, Accessibility, LayoutDashboard, X } from "lucide-react";
+import { Settings, Accessibility, LayoutDashboard, X, Moon, Sun } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { useTheme } from "@/hooks/use-theme";
 
 type Section = "general" | "accessibility" | "dock";
 
@@ -27,12 +28,25 @@ const GeneralSettings = ({
 }: {
   animationsEnabled: boolean;
   onAnimationsChange: (v: boolean) => void;
-}) => (
+}) => {
+  const { theme, toggleTheme } = useTheme();
+  return (
   <div className="space-y-6">
     <div>
       <h3 className="text-sm font-medium text-foreground mb-1">Appearance</h3>
       <p className="text-xs text-muted-foreground mb-3">Customize the look and feel</p>
       <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <Label htmlFor="dark-mode" className="text-sm flex items-center gap-2">
+            {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+            Dark mode
+          </Label>
+          <Switch
+            id="dark-mode"
+            checked={theme === "dark"}
+            onCheckedChange={toggleTheme}
+          />
+        </div>
         <div className="flex items-center justify-between">
           <Label htmlFor="animations" className="text-sm">Enable animations</Label>
           <Switch
@@ -56,7 +70,8 @@ const GeneralSettings = ({
       </div>
     </div>
   </div>
-);
+  );
+};
 
 const AccessibilitySettings = () => (
   <div className="space-y-6">
