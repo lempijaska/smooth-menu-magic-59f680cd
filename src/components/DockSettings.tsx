@@ -194,14 +194,13 @@ const DockSettings = ({ open, onOpenChange, animationsEnabled, onAnimationsChang
 
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div
       ref={panelRef}
       className="fixed w-[560px] rounded-2xl border border-border bg-card shadow-2xl shadow-black/10 overflow-hidden z-[100]"
       style={{
         left: panelPos.x,
         top: panelPos.y,
-        animation: "scale-in 0.2s ease-out",
       }}
     >
       {/* Draggable header */}
