@@ -600,7 +600,9 @@ const FloatingMenu = () => {
                       onDrop={(e) => onPinnedDrop(e as unknown as React.DragEvent, i, "replace")}
                       onMouseEnter={() => setHoveredItem(item.id)}
                       onMouseLeave={() => setHoveredItem(null)}
-                      className={`group relative flex h-8 w-8 items-center justify-center rounded-[10px] transition-colors duration-150 cursor-grab active:cursor-grabbing ${
+                      data-tooltip={isDragActive ? "" : item.label}
+                      data-tooltip-placement="top"
+                      className={`tooltip group relative flex h-8 w-8 items-center justify-center rounded-[10px] transition-colors duration-150 cursor-grab active:cursor-grabbing ${
                         isBeingDragged && !shouldCollapse ? "opacity-30" : ""
                       } ${
                         isReplaceTarget
@@ -612,22 +614,6 @@ const FloatingMenu = () => {
                       onClick={() => handleItemClick(item.id)}
                     >
                       <Icon className="pointer-events-none h-[16px] w-[16px]" />
-
-                      {/* iPadOS-style tooltip */}
-                      <AnimatePresence>
-                        {isHovered && !isDragActive && (
-                          <motion.span
-                            className="pointer-events-none absolute -top-9 left-1/2 z-30 whitespace-nowrap rounded-lg border border-menu-glass-border bg-menu-glass px-2.5 py-1 text-[11px] font-medium text-foreground backdrop-blur-2xl shadow-lg shadow-black/20"
-                            initial={{ opacity: 0, y: 4, x: "-50%" }}
-                            animate={{ opacity: 1, y: 0, x: "-50%" }}
-                            exit={{ opacity: 0, y: 4, x: "-50%" }}
-                            transition={{ duration: 0.12 }}
-                          >
-                            {item.label}
-                            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border-b border-r border-menu-glass-border bg-menu-glass" />
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
                     </motion.button>
                   </motion.div>
                 </motion.div>
@@ -774,7 +760,9 @@ const FloatingMenu = () => {
                       onDrop={(e) => { e.preventDefault(); e.stopPropagation(); onPaletteDrop(e as unknown as React.DragEvent); }}
                       onMouseEnter={() => setHoveredItem(item.id)}
                       onMouseLeave={() => setHoveredItem(null)}
-                      className={`group relative flex flex-col items-center justify-center rounded-xl text-muted-foreground transition-colors duration-150 hover:bg-menu-glass-hover hover:text-foreground cursor-grab active:cursor-grabbing aspect-square ${
+                      data-tooltip={isDragActive ? "" : item.label}
+                      data-tooltip-placement="top"
+                      className={`tooltip group relative flex flex-col items-center justify-center rounded-xl text-muted-foreground transition-colors duration-150 hover:bg-menu-glass-hover hover:text-foreground cursor-grab active:cursor-grabbing aspect-square ${
                         isBeingDragged ? "opacity-20" : ""
                       } ${
                         isReplaceTarget ? "ring-2 ring-primary/60 bg-primary/15" : ""
@@ -789,21 +777,6 @@ const FloatingMenu = () => {
                       <span className="pointer-events-none mt-0.5 font-medium leading-tight opacity-60 truncate" style={{ fontSize: paletteFontSize, maxWidth: PALETTE_ITEM_SIZE - 4 }}>
                         {item.label}
                       </span>
-
-                      {/* Tooltip */}
-                      <AnimatePresence>
-                        {isHovered && !isDragActive && (
-                          <motion.span
-                            className="pointer-events-none absolute -top-8 left-1/2 z-30 whitespace-nowrap rounded-lg border border-menu-glass-border bg-menu-glass px-2.5 py-1 text-[11px] font-medium text-foreground backdrop-blur-2xl shadow-lg shadow-black/20"
-                            initial={{ opacity: 0, y: 4, x: "-50%" }}
-                            animate={{ opacity: 1, y: 0, x: "-50%" }}
-                            exit={{ opacity: 0, y: 4, x: "-50%" }}
-                            transition={{ duration: 0.12 }}
-                          >
-                            {item.label}
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
                     </motion.button>
                   );
                 });
