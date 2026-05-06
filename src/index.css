@@ -114,3 +114,71 @@
     @apply bg-background text-foreground antialiased;
   }
 }
+
+@layer components {
+  /* Reusable CSS-only tooltip.
+     Usage: <button class="tooltip" data-tooltip="Label">…</button>
+     Optional placement: data-tooltip-placement="top|bottom|left|right" (default: top) */
+  .tooltip {
+    position: relative;
+  }
+  .tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    z-index: 50;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1rem;
+    font-weight: 500;
+    white-space: nowrap;
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    box-shadow: 0 4px 12px hsl(0 0% 0% / 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 150ms ease, transform 150ms ease;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+  }
+  .tooltip:hover::after,
+  .tooltip:focus-visible::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .tooltip[data-tooltip-placement="bottom"]::after {
+    bottom: auto;
+    top: calc(100% + 6px);
+    transform: translateX(-50%) translateY(-4px);
+  }
+  .tooltip[data-tooltip-placement="bottom"]:hover::after,
+  .tooltip[data-tooltip-placement="bottom"]:focus-visible::after {
+    transform: translateX(-50%) translateY(0);
+  }
+  .tooltip[data-tooltip-placement="right"]::after {
+    bottom: auto;
+    left: calc(100% + 6px);
+    top: 50%;
+    transform: translateY(-50%) translateX(-4px);
+  }
+  .tooltip[data-tooltip-placement="right"]:hover::after,
+  .tooltip[data-tooltip-placement="right"]:focus-visible::after {
+    transform: translateY(-50%) translateX(0);
+  }
+  .tooltip[data-tooltip-placement="left"]::after {
+    bottom: auto;
+    right: calc(100% + 6px);
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%) translateX(4px);
+  }
+  .tooltip[data-tooltip-placement="left"]:hover::after,
+  .tooltip[data-tooltip-placement="left"]:focus-visible::after {
+    transform: translateY(-50%) translateX(0);
+  }
+  .tooltip:not([data-tooltip])::after,
+  .tooltip[data-tooltip=""]::after {
+    content: none;
+  }
+}
