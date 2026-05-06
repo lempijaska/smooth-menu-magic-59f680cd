@@ -212,13 +212,6 @@ const Dock = () => {
         )}
 
         <div className="flex flex-col items-center">
-          <div
-            className="pointer-events-none mb-1 px-2 py-0.5 rounded-md text-xs font-medium bg-secondary text-secondary-foreground whitespace-nowrap transition-opacity duration-150"
-            style={{ opacity: hoveredId === item.id ? 1 : 0 }}
-          >
-            {item.label}
-          </div>
-
           <button
             ref={(el) => {
               itemRefs.current[item.id] = el;
@@ -227,7 +220,9 @@ const Dock = () => {
             onDragStart={(e) => onDragStart(e, item)}
             onDragEnd={(e) => onDragEnd(e, item)}
             onClick={() => handleClick(item.id)}
-            className="flex items-center justify-center rounded-xl bg-secondary/80 text-foreground transition-colors duration-150 hover:bg-accent/20 cursor-grab active:cursor-grabbing"
+            data-tooltip={item.label}
+            data-tooltip-placement="top"
+            className="tooltip flex items-center justify-center rounded-xl bg-secondary/80 text-foreground transition-colors duration-150 hover:bg-accent/20 cursor-grab active:cursor-grabbing"
             style={{
               width: BASE_SIZE,
               height: BASE_SIZE,
