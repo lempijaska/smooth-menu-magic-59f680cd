@@ -760,7 +760,9 @@ const FloatingMenu = () => {
                       onDrop={(e) => { e.preventDefault(); e.stopPropagation(); onPaletteDrop(e as unknown as React.DragEvent); }}
                       onMouseEnter={() => setHoveredItem(item.id)}
                       onMouseLeave={() => setHoveredItem(null)}
-                      className={`group relative flex flex-col items-center justify-center rounded-xl text-muted-foreground transition-colors duration-150 hover:bg-menu-glass-hover hover:text-foreground cursor-grab active:cursor-grabbing aspect-square ${
+                      data-tooltip={isDragActive ? "" : item.label}
+                      data-tooltip-placement="top"
+                      className={`tooltip group relative flex flex-col items-center justify-center rounded-xl text-muted-foreground transition-colors duration-150 hover:bg-menu-glass-hover hover:text-foreground cursor-grab active:cursor-grabbing aspect-square ${
                         isBeingDragged ? "opacity-20" : ""
                       } ${
                         isReplaceTarget ? "ring-2 ring-primary/60 bg-primary/15" : ""
@@ -775,21 +777,6 @@ const FloatingMenu = () => {
                       <span className="pointer-events-none mt-0.5 font-medium leading-tight opacity-60 truncate" style={{ fontSize: paletteFontSize, maxWidth: PALETTE_ITEM_SIZE - 4 }}>
                         {item.label}
                       </span>
-
-                      {/* Tooltip */}
-                      <AnimatePresence>
-                        {isHovered && !isDragActive && (
-                          <motion.span
-                            className="pointer-events-none absolute -top-8 left-1/2 z-30 whitespace-nowrap rounded-lg border border-menu-glass-border bg-menu-glass px-2.5 py-1 text-[11px] font-medium text-foreground backdrop-blur-2xl shadow-lg shadow-black/20"
-                            initial={{ opacity: 0, y: 4, x: "-50%" }}
-                            animate={{ opacity: 1, y: 0, x: "-50%" }}
-                            exit={{ opacity: 0, y: 4, x: "-50%" }}
-                            transition={{ duration: 0.12 }}
-                          >
-                            {item.label}
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
                     </motion.button>
                   );
                 });
