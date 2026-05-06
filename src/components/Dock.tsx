@@ -258,10 +258,8 @@ const Dock = () => {
     <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-50">
       <div
         ref={dockRef}
-        className={`flex items-end px-3 py-2 rounded-2xl border bg-card/90 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] transition-colors ${
-          isDragOver
-            ? "border-primary/40"
-            : "border-border"
+        className={`flex items-end px-3 py-2 rounded-2xl border border-transparent bg-transparent shadow-none transition-colors ${
+          isDragOver ? "border-primary/40" : ""
         }`}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
