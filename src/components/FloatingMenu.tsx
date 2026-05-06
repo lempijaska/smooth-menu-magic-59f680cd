@@ -584,38 +584,42 @@ const FloatingMenu = () => {
                   </motion.div>
 
                   {/* Toolbar item with collapsible wrapper */}
-                  <motion.div
-                    animate={{
-                      width: shouldCollapse ? 0 : 32,
-                      opacity: shouldCollapse ? 0 : 1,
-                    }}
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                    className="overflow-hidden"
+                  <div
+                    className="tooltip"
+                    data-tooltip={isDragActive ? "" : item.label}
+                    data-tooltip-placement="top"
                   >
-                    <motion.button
-                      draggable
-                      onDragStart={(e) => onItemDragStart(e as unknown as React.DragEvent, item.id)}
-                      onDragEnd={onItemDragEnd}
-                      onDragOver={(e) => onItemDragOver(e as unknown as React.DragEvent, i)}
-                      onDrop={(e) => onPinnedDrop(e as unknown as React.DragEvent, i, "replace")}
-                      onMouseEnter={() => setHoveredItem(item.id)}
-                      onMouseLeave={() => setHoveredItem(null)}
-                      data-tooltip={isDragActive ? "" : item.label}
-                      data-tooltip-placement="top"
-                      className={`tooltip group relative flex h-8 w-8 items-center justify-center rounded-[10px] transition-colors duration-150 cursor-grab active:cursor-grabbing ${
-                        isBeingDragged && !shouldCollapse ? "opacity-30" : ""
-                      } ${
-                        isReplaceTarget
-                          ? "ring-2 ring-primary/60 bg-primary/15"
-                          : isActive
-                            ? "bg-menu-active-bg text-foreground"
-                            : "text-muted-foreground hover:bg-menu-glass-hover hover:text-foreground"
-                      }`}
-                      onClick={() => handleItemClick(item.id)}
+                    <motion.div
+                      animate={{
+                        width: shouldCollapse ? 0 : 32,
+                        opacity: shouldCollapse ? 0 : 1,
+                      }}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      className="overflow-hidden"
                     >
-                      <Icon className="pointer-events-none h-[16px] w-[16px]" />
-                    </motion.button>
-                  </motion.div>
+                      <motion.button
+                        draggable
+                        onDragStart={(e) => onItemDragStart(e as unknown as React.DragEvent, item.id)}
+                        onDragEnd={onItemDragEnd}
+                        onDragOver={(e) => onItemDragOver(e as unknown as React.DragEvent, i)}
+                        onDrop={(e) => onPinnedDrop(e as unknown as React.DragEvent, i, "replace")}
+                        onMouseEnter={() => setHoveredItem(item.id)}
+                        onMouseLeave={() => setHoveredItem(null)}
+                        className={`group relative flex h-8 w-8 items-center justify-center rounded-[10px] transition-colors duration-150 cursor-grab active:cursor-grabbing ${
+                          isBeingDragged && !shouldCollapse ? "opacity-30" : ""
+                        } ${
+                          isReplaceTarget
+                            ? "ring-2 ring-primary/60 bg-primary/15"
+                            : isActive
+                              ? "bg-menu-active-bg text-foreground"
+                              : "text-muted-foreground hover:bg-menu-glass-hover hover:text-foreground"
+                        }`}
+                        onClick={() => handleItemClick(item.id)}
+                      >
+                        <Icon className="pointer-events-none h-[16px] w-[16px]" />
+                      </motion.button>
+                    </motion.div>
+                  </div>
                 </motion.div>
               );
             })}
