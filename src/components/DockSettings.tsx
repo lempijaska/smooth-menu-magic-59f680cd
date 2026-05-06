@@ -227,7 +227,11 @@ const DockSettings = ({ open, onOpenChange, animationsEnabled, onAnimationsChang
       >
         <h2 className="text-sm font-semibold text-foreground">Settings</h2>
         <button
-          onClick={() => onOpenChange(false)}
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpenChange(false);
+          }}
           className="h-6 w-6 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/10 transition-colors"
         >
           <X className="h-4 w-4" />
