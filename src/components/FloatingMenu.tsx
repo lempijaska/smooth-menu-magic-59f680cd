@@ -648,8 +648,6 @@ const FloatingMenu = () => {
               </motion.div>
             )}
 
-            <div className="ml-auto h-5 w-px bg-menu-separator/40 mx-0.5" />
-
             {/* More button */}
             <motion.button
               className={`relative flex h-8 w-8 items-center justify-center rounded-[10px] transition-all duration-150 ${
@@ -664,7 +662,7 @@ const FloatingMenu = () => {
               <MoreHorizontal className="h-[16px] w-[16px]" />
             </motion.button>
 
-            <div className="mx-0.5 h-5 w-px bg-menu-separator/40" />
+            <div className="ml-auto h-5 w-px bg-menu-separator/40 mx-0.5" />
 
             {/* Right drag handle — repositions the whole menu */}
             <div
