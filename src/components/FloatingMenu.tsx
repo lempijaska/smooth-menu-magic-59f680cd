@@ -624,29 +624,27 @@ const FloatingMenu = () => {
               );
             })}
 
-            {/* Trailing insert gap — animated */}
-            {isDragActive && isDragFromPalette && (
+            {/* Trailing insert gap — animated (always present for equal spacing) */}
+            <motion.div
+              className="flex items-center justify-center overflow-hidden"
+              style={{ height: 32 }}
+              animate={{
+                width: dropTargetIndex === pinnedIds.length && dropMode === "insert" && isDragActive && isDragFromPalette ? ITEM_SLOT_SIZE : 6,
+              }}
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              onDragOver={(e) => onGapDragOver(e as unknown as React.DragEvent, pinnedIds.length)}
+              onDrop={(e) => onPinnedDrop(e as unknown as React.DragEvent, pinnedIds.length, "insert")}
+            >
               <motion.div
-                className="flex items-center justify-center overflow-hidden"
-                style={{ height: 32 }}
+                className="rounded-full bg-primary"
                 animate={{
-                  width: dropTargetIndex === pinnedIds.length && dropMode === "insert" ? ITEM_SLOT_SIZE : 6,
+                  width: dropTargetIndex === pinnedIds.length && dropMode === "insert" && isDragActive && isDragFromPalette ? 3 : 0,
+                  height: dropTargetIndex === pinnedIds.length && dropMode === "insert" && isDragActive && isDragFromPalette ? 20 : 0,
+                  opacity: dropTargetIndex === pinnedIds.length && dropMode === "insert" && isDragActive && isDragFromPalette ? 1 : 0,
                 }}
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                onDragOver={(e) => onGapDragOver(e as unknown as React.DragEvent, pinnedIds.length)}
-                onDrop={(e) => onPinnedDrop(e as unknown as React.DragEvent, pinnedIds.length, "insert")}
-              >
-                <motion.div
-                  className="rounded-full bg-primary"
-                  animate={{
-                    width: dropTargetIndex === pinnedIds.length && dropMode === "insert" ? 3 : 0,
-                    height: dropTargetIndex === pinnedIds.length && dropMode === "insert" ? 20 : 0,
-                    opacity: dropTargetIndex === pinnedIds.length && dropMode === "insert" ? 1 : 0,
-                  }}
-                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                />
-              </motion.div>
-            )}
+              />
+            </motion.div>
 
             {/* More button */}
             <motion.button
@@ -662,7 +660,7 @@ const FloatingMenu = () => {
               <MoreHorizontal className="h-[16px] w-[16px]" />
             </motion.button>
 
-            <div className="ml-auto h-5 w-px bg-menu-separator/40 mx-0.5" />
+            <div className="ml-auto mx-0.5 h-5 w-px bg-menu-separator/40" />
 
             {/* Right drag handle — repositions the whole menu */}
             <div
