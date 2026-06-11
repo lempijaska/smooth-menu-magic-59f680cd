@@ -33,8 +33,10 @@ const Index = () => {
           Click anywhere on the canvas to close it
         </p>
       </div>
+      <ParkingDock />
       <FloatingMenu />
       <Dock />
+
     </div>
   );
 };
