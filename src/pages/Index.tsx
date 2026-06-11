@@ -1,9 +1,12 @@
+import { useState } from "react";
 import FloatingMenu from "@/components/FloatingMenu";
 import Dock from "@/components/Dock";
 import ParkingDock from "@/components/ParkingDock";
 
 
 const Index = () => {
+  const [dockLocked, setDockLocked] = useState(false);
+
   return (
     <div
       className="relative flex min-h-screen items-center justify-center bg-background overflow-hidden"
@@ -33,8 +36,8 @@ const Index = () => {
           Click anywhere on the canvas to close it
         </p>
       </div>
-      <ParkingDock />
-      <FloatingMenu />
+      <ParkingDock locked={dockLocked} onToggleLock={() => setDockLocked((v) => !v)} />
+      <FloatingMenu dockLocked={dockLocked} />
       <Dock />
 
     </div>

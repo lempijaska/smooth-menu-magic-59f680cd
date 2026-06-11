@@ -76,7 +76,12 @@ const PALETTE_COLS = 8;
 const PALETTE_GAP = 4;
 const PALETTE_PAD = 12;
 
-const FloatingMenu = () => {
+interface FloatingMenuProps {
+  dockLocked?: boolean;
+}
+
+const FloatingMenu = ({ dockLocked = false }: FloatingMenuProps) => {
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("home");
@@ -149,6 +154,7 @@ const FloatingMenu = () => {
 
   // --- Drag to reposition ---
   const onPointerDown = useCallback((e: React.PointerEvent) => {
+    if (docked && dockLocked) return; // locked in dock — no dragging
     isDragging.current = true;
     hasMoved.current = false;
     wasDocked.current = docked;
@@ -156,7 +162,8 @@ const FloatingMenu = () => {
     posStart.current = { ...pos };
     document.body.dataset.menuDragging = "true";
     e.currentTarget.setPointerCapture(e.pointerId);
-  }, [pos, docked]);
+  }, [pos, docked, dockLocked]);
+
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
     if (!isDragging.current) return;

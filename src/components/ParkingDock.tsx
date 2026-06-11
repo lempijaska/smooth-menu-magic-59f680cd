@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { Lock, Unlock } from "lucide-react";
 
-const ParkingDock = () => {
+interface ParkingDockProps {
+  locked: boolean;
+  onToggleLock: () => void;
+}
+
+const ParkingDock = ({ locked, onToggleLock }: ParkingDockProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
   const [hovering, setHovering] = useState(false);
@@ -47,10 +53,22 @@ const ParkingDock = () => {
       }`}
       style={{ width: 512, height: 56 }}
     >
-      Dock
+      <span>Dock</span>
+      <button
+        type="button"
+        onClick={onToggleLock}
+        data-tooltip={locked ? "Unlock menu" : "Lock menu in place"}
+        data-tooltip-placement="bottom"
+        className={`tooltip absolute right-2 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-lg border transition-colors ${
+          locked
+            ? "border-primary/60 bg-primary/15 text-primary"
+            : "border-menu-glass-border/60 bg-menu-glass/60 text-muted-foreground hover:text-foreground"
+        }`}
+      >
+        {locked ? <Lock className="h-3.5 w-3.5" /> : <Unlock className="h-3.5 w-3.5" />}
+      </button>
     </div>
   );
-
 };
 
 export default ParkingDock;
