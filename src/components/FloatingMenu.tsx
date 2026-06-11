@@ -76,7 +76,12 @@ const PALETTE_COLS = 8;
 const PALETTE_GAP = 4;
 const PALETTE_PAD = 12;
 
-const FloatingMenu = () => {
+interface FloatingMenuProps {
+  dockLocked?: boolean;
+}
+
+const FloatingMenu = ({ dockLocked = false }: FloatingMenuProps) => {
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("home");
