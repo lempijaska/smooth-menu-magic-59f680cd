@@ -154,6 +154,7 @@ const FloatingMenu = ({ dockLocked = false }: FloatingMenuProps) => {
 
   // --- Drag to reposition ---
   const onPointerDown = useCallback((e: React.PointerEvent) => {
+    if (docked && dockLocked) return; // locked in dock — no dragging
     isDragging.current = true;
     hasMoved.current = false;
     wasDocked.current = docked;
@@ -161,7 +162,8 @@ const FloatingMenu = ({ dockLocked = false }: FloatingMenuProps) => {
     posStart.current = { ...pos };
     document.body.dataset.menuDragging = "true";
     e.currentTarget.setPointerCapture(e.pointerId);
-  }, [pos, docked]);
+  }, [pos, docked, dockLocked]);
+
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
     if (!isDragging.current) return;
