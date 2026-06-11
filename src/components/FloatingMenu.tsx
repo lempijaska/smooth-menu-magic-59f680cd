@@ -108,11 +108,14 @@ const FloatingMenu = () => {
 
   // Menu position drag state
   const [pos, setPos] = useState({ x: 24, y: 300 });
+  const [docked, setDocked] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0 });
   const posStart = useRef({ x: 0, y: 0 });
   const hasMoved = useRef(false);
+  const wasDocked = useRef(false);
+
 
   const pinnedItems = useMemo(
     () => pinnedIds.map((id) => findItem(id)!).filter(Boolean),
@@ -148,21 +151,35 @@ const FloatingMenu = () => {
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     isDragging.current = true;
     hasMoved.current = false;
+    wasDocked.current = docked;
     dragStart.current = { x: e.clientX, y: e.clientY };
     posStart.current = { ...pos };
+    document.body.dataset.menuDragging = "true";
     e.currentTarget.setPointerCapture(e.pointerId);
-  }, [pos]);
+  }, [pos, docked]);
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
     if (!isDragging.current) return;
     const dx = e.clientX - dragStart.current.x;
     const dy = e.clientY - dragStart.current.y;
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMoved.current = true;
+
+    // If we were docked and user moves, undock and follow the cursor
+    if (wasDocked.current && hasMoved.current) {
+      setDocked(false);
+      wasDocked.current = false;
+      posStart.current = {
+        x: e.clientX - TRIGGER_SIZE / 2,
+        y: e.clientY - TRIGGER_SIZE / 2,
+      };
+      dragStart.current = { x: e.clientX, y: e.clientY };
+    }
+
     const maxX = window.innerWidth - TRIGGER_SIZE;
     const maxY = window.innerHeight - TRIGGER_SIZE;
     setPos({
-      x: Math.max(0, Math.min(maxX, posStart.current.x + dx)),
-      y: Math.max(0, Math.min(maxY, posStart.current.y + dy)),
+      x: Math.max(0, Math.min(maxX, posStart.current.x + (e.clientX - dragStart.current.x))),
+      y: Math.max(0, Math.min(maxY, posStart.current.y + (e.clientY - dragStart.current.y))),
     });
   }, []);
 
@@ -171,12 +188,47 @@ const FloatingMenu = () => {
       e.currentTarget.releasePointerCapture(e.pointerId);
     }
     isDragging.current = false;
-    // Reset hasMoved after a tick so the current click cycle can still check it,
-    // but future clicks won't be blocked by a previous drag.
+    document.body.dataset.menuDragging = "false";
+
+    // Check if released over the parking dock
+    if (hasMoved.current) {
+      const dockEl = document.getElementById("menu-parking-dock");
+      if (dockEl) {
+        const r = dockEl.getBoundingClientRect();
+        if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
+          setDocked(true);
+          setPos({
+            x: r.left + (r.width - TRIGGER_SIZE) / 2,
+            y: r.top + (r.height - TRIGGER_SIZE) / 2,
+          });
+          setMenuOpen(false);
+          setPaletteOpen(false);
+        }
+      }
+    }
+
     requestAnimationFrame(() => {
       hasMoved.current = false;
     });
   }, []);
+
+  // Keep snapped to dock when window resizes
+  useEffect(() => {
+    if (!docked) return;
+    const snap = () => {
+      const dockEl = document.getElementById("menu-parking-dock");
+      if (!dockEl) return;
+      const r = dockEl.getBoundingClientRect();
+      setPos({
+        x: r.left + (r.width - TRIGGER_SIZE) / 2,
+        y: r.top + (r.height - TRIGGER_SIZE) / 2,
+      });
+    };
+    snap();
+    window.addEventListener("resize", snap);
+    return () => window.removeEventListener("resize", snap);
+  }, [docked]);
+
 
   // Close on outside click (but not during drag operations)
   const isDraggingRef = useRef(false);

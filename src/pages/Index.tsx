@@ -1,5 +1,7 @@
 import FloatingMenu from "@/components/FloatingMenu";
 import Dock from "@/components/Dock";
+import ParkingDock from "@/components/ParkingDock";
+
 
 const Index = () => {
   return (
@@ -31,8 +33,10 @@ const Index = () => {
           Click anywhere on the canvas to close it
         </p>
       </div>
+      <ParkingDock />
       <FloatingMenu />
       <Dock />
+
     </div>
   );
 };
