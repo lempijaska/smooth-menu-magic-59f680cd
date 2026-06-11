@@ -198,11 +198,10 @@ const FloatingMenu = () => {
         if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
           setDocked(true);
           setPos({
-            x: r.left + (r.width - TRIGGER_SIZE) / 2,
+            x: r.left + 6,
             y: r.top + (r.height - TRIGGER_SIZE) / 2,
           });
-          setMenuOpen(false);
-          setPaletteOpen(false);
+          setMenuOpen(true);
         }
       }
     }
@@ -220,7 +219,7 @@ const FloatingMenu = () => {
       if (!dockEl) return;
       const r = dockEl.getBoundingClientRect();
       setPos({
-        x: r.left + (r.width - TRIGGER_SIZE) / 2,
+        x: r.left + 6,
         y: r.top + (r.height - TRIGGER_SIZE) / 2,
       });
     };
@@ -228,6 +227,7 @@ const FloatingMenu = () => {
     window.addEventListener("resize", snap);
     return () => window.removeEventListener("resize", snap);
   }, [docked]);
+
 
 
   // Close on outside click (but not during drag operations)
