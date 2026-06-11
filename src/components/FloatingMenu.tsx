@@ -108,11 +108,14 @@ const FloatingMenu = () => {
 
   // Menu position drag state
   const [pos, setPos] = useState({ x: 24, y: 300 });
+  const [docked, setDocked] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0 });
   const posStart = useRef({ x: 0, y: 0 });
   const hasMoved = useRef(false);
+  const wasDocked = useRef(false);
+
 
   const pinnedItems = useMemo(
     () => pinnedIds.map((id) => findItem(id)!).filter(Boolean),
