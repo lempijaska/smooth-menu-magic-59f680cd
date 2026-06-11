@@ -38,17 +38,19 @@ const ParkingDock = () => {
     <div
       id="menu-parking-dock"
       ref={ref}
-      className={`fixed top-4 right-4 z-40 flex h-20 w-20 items-center justify-center rounded-2xl border-2 border-dashed text-[10px] font-medium uppercase tracking-wider transition-all duration-200 ${
+      className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 flex items-center justify-center rounded-2xl border-2 border-dashed text-[10px] font-medium uppercase tracking-wider transition-all duration-200 ${
         hovering
           ? "border-primary bg-primary/15 text-primary scale-105"
           : dragging
             ? "border-primary/60 bg-primary/5 text-primary/70"
             : "border-menu-glass-border/60 bg-menu-glass/30 text-muted-foreground/50 backdrop-blur-xl"
       }`}
+      style={{ width: 512, height: 56 }}
     >
       Dock
     </div>
   );
+
 };
 
 export default ParkingDock;
