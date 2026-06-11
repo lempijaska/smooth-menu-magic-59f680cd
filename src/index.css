@@ -42,12 +42,12 @@
     --shadow-elegant: 0 12px 40px -12px hsl(252 80% 60% / 0.25);
     --shadow-soft: 0 4px 20px -4px hsl(230 25% 12% / 0.08);
 
-    --menu-glass: 230 25% 14%;
-    --menu-glass-border: 230 15% 30%;
+    --menu-glass: 0 0% 100%;
+    --menu-glass-border: 230 18% 85%;
     --menu-glow: 252 80% 60%;
-    --menu-glass-hover: 230 22% 22%;
-    --menu-active-bg: 252 50% 32%;
-    --menu-separator: 230 15% 36%;
+    --menu-glass-hover: 230 20% 92%;
+    --menu-active-bg: 252 60% 92%;
+    --menu-separator: 230 15% 80%;
 
     --sidebar-background: 220 25% 98%;
     --sidebar-foreground: 230 25% 18%;
@@ -93,6 +93,13 @@
     --gradient-surface: linear-gradient(180deg, hsl(230 25% 8%), hsl(230 25% 5%));
     --shadow-elegant: 0 12px 40px -12px hsl(260 90% 70% / 0.35);
     --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.45);
+
+    --menu-glass: 230 25% 14%;
+    --menu-glass-border: 230 15% 30%;
+    --menu-glow: 260 90% 70%;
+    --menu-glass-hover: 230 22% 22%;
+    --menu-active-bg: 252 50% 32%;
+    --menu-separator: 230 15% 36%;
 
     --sidebar-background: 230 22% 9%;
     --sidebar-foreground: 220 20% 92%;
