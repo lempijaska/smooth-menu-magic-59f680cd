@@ -6,7 +6,7 @@ import {
   FileText, Folder, Archive, Cloud, Lock, Unlock, Star, Sun, Moon,
   Coffee, Gift, Award, Target, Flag, Map, Compass, Wifi, Battery,
   Monitor, Smartphone, Tablet, Watch, Headphones, Mic, Volume2,
-  Download, Upload, Printer, Trash2, Edit, Eye, X, GripVertical,
+  Download, Upload, Printer, Trash2, Edit, Eye, X, GripVertical, StickyNote,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { DRAG_MIME, encodeDragData, decodeDragData, getIcon } from "@/lib/icon-registry";
@@ -19,6 +19,7 @@ interface MenuItem {
 }
 
 const allItems: MenuItem[] = [
+  { id: "card", icon: StickyNote, label: "Card (drag onto canvas)", iconName: "StickyNote" },
   { id: "home", icon: Home, label: "Home", iconName: "Home" },
   { id: "search", icon: Search, label: "Search", iconName: "Search" },
   { id: "bell", icon: Bell, label: "Notifications", iconName: "Bell" },
@@ -70,7 +71,7 @@ const allItems: MenuItem[] = [
 
 const MAX_PINNED = 8;
 const ITEM_SLOT_SIZE = 36; // width of a toolbar item + gap for animation
-const DEFAULT_PINNED_IDS = ["home", "search", "bell", "heart", "mail", "user", "settings", "bookmark"];
+const DEFAULT_PINNED_IDS = ["card", "home", "search", "bell", "heart", "mail", "user", "settings"];
 const TRIGGER_SIZE = 44;
 const PALETTE_COLS = 8;
 const PALETTE_GAP = 4;
