@@ -290,6 +290,39 @@ const FloatingMenu = ({ dockLocked = false }: FloatingMenuProps) => {
     setOpenLeft(dirs.openLeft);
   }, [computeDirections]);
 
+  // --- Touch-friendly drag for the Card item (HTML5 DnD doesn't fire on touch) ---
+  const startTouchCardDrag = (e: React.PointerEvent) => {
+    if (e.pointerType === "mouse") return; // desktop uses native HTML5 DnD
+    e.preventDefault();
+    e.stopPropagation();
+
+    const GW = 140, GH = 90;
+    const ghost = document.createElement("div");
+    ghost.style.cssText = `position:fixed;left:${e.clientX - GW / 2}px;top:${e.clientY - GH / 2}px;width:${GW}px;height:${GH}px;border-radius:16px;background:hsl(var(--card));border:1px solid hsl(var(--primary));box-shadow:0 12px 32px hsl(var(--primary)/.35);opacity:.9;pointer-events:none;z-index:9999;transition:transform .05s;`;
+    document.body.appendChild(ghost);
+    document.body.style.touchAction = "none";
+
+    const move = (ev: PointerEvent) => {
+      ghost.style.left = `${ev.clientX - GW / 2}px`;
+      ghost.style.top = `${ev.clientY - GH / 2}px`;
+    };
+    const end = (ev: PointerEvent) => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", end);
+      window.removeEventListener("pointercancel", end);
+      ghost.remove();
+      document.body.style.touchAction = "";
+
+      const el = document.elementFromPoint(ev.clientX, ev.clientY) as HTMLElement | null;
+      // Don't create if released over the floating menu itself or the dock
+      if (el?.closest("[data-floating-menu]") || el?.closest("[data-app-dock]") || el?.closest("[data-menu-parking-dock]")) return;
+      window.dispatchEvent(new CustomEvent("card:create", { detail: { x: ev.clientX, y: ev.clientY } }));
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", end);
+    window.addEventListener("pointercancel", end);
+  };
+
   const handleTriggerClick = () => {
     if (hasMoved.current) return;
     if (menuOpen) {
@@ -549,6 +582,7 @@ const FloatingMenu = ({ dockLocked = false }: FloatingMenuProps) => {
   return (
     <div
       ref={containerRef}
+      data-floating-menu
       className="fixed z-50 select-none"
       style={{ left: pos.x, top: pos.y }}
     >
@@ -665,6 +699,8 @@ const FloatingMenu = ({ dockLocked = false }: FloatingMenuProps) => {
                         onDrop={(e) => onPinnedDrop(e as unknown as React.DragEvent, i, "replace")}
                         onMouseEnter={() => setHoveredItem(item.id)}
                         onMouseLeave={() => setHoveredItem(null)}
+                        onPointerDown={item.id === "card" ? (e) => startTouchCardDrag(e) : undefined}
+                        style={item.id === "card" ? { touchAction: "none" } : undefined}
                         className={`group relative flex h-8 w-8 items-center justify-center rounded-[10px] transition-colors duration-150 cursor-grab active:cursor-grabbing ${
                           isBeingDragged && !shouldCollapse ? "opacity-30" : ""
                         } ${

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Trash2, GripHorizontal } from "lucide-react";
 import { decodeDragData } from "@/lib/icon-registry";
 
@@ -35,6 +35,20 @@ const CardLayer = () => {
     setCards((prev) => [...prev, { id, x, y }]);
     setSelectedId(id);
   };
+  // Touch-friendly card creation from FloatingMenu (CustomEvent)
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const { x, y } = (e as CustomEvent<{ x: number; y: number }>).detail;
+      const id = `card-${Date.now()}`;
+      const cx = Math.max(8, Math.min(window.innerWidth - CARD_W - 8, x - CARD_W / 2));
+      const cy = Math.max(8, Math.min(window.innerHeight - CARD_H - 8, y - CARD_H / 2));
+      setCards((prev) => [...prev, { id, x: cx, y: cy }]);
+      setSelectedId(id);
+    };
+    window.addEventListener("card:create", handler);
+    return () => window.removeEventListener("card:create", handler);
+  }, []);
+
 
   const onCardPointerDown = (e: React.PointerEvent, card: CardData) => {
     e.stopPropagation();
@@ -109,7 +123,7 @@ const CardLayer = () => {
                   ? "ring-2 ring-primary shadow-xl border-primary/50"
                   : "border-border hover:shadow-xl"
               }`}
-              style={{ height: CARD_H }}
+              style={{ height: CARD_H, touchAction: "none" }}
             >
               <div className="flex items-center gap-2 text-muted-foreground mb-2">
                 <GripHorizontal className="h-4 w-4" />
