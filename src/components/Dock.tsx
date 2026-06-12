@@ -250,7 +250,7 @@ const Dock = () => {
   const showTrailingGap = insertIndex === mainItems.length && isDragOver;
 
   return (
-    <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-50">
+    <div data-app-dock className="fixed bottom-3 left-1/2 -translate-x-1/2 z-50">
       <div
         ref={dockRef}
         className={`flex items-end px-3 py-2 rounded-2xl border border-transparent bg-transparent shadow-none transition-colors ${

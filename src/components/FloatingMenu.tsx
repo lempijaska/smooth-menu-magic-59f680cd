@@ -582,6 +582,7 @@ const FloatingMenu = ({ dockLocked = false }: FloatingMenuProps) => {
   return (
     <div
       ref={containerRef}
+      data-floating-menu
       className="fixed z-50 select-none"
       style={{ left: pos.x, top: pos.y }}
     >
