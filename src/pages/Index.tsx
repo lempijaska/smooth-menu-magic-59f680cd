@@ -2,6 +2,8 @@ import { useState } from "react";
 import FloatingMenu from "@/components/FloatingMenu";
 import Dock from "@/components/Dock";
 import ParkingDock from "@/components/ParkingDock";
+import CardLayer from "@/components/CardLayer";
+
 
 
 const Index = () => {
@@ -36,9 +38,11 @@ const Index = () => {
           Click anywhere on the canvas to close it
         </p>
       </div>
+      <CardLayer />
       <ParkingDock locked={dockLocked} onToggleLock={() => setDockLocked((v) => !v)} />
       <FloatingMenu dockLocked={dockLocked} />
       <Dock />
+
 
     </div>
   );

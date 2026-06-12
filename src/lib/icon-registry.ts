@@ -5,7 +5,7 @@ import {
   Coffee, Gift, Award, Target, Flag, Map, Compass, Wifi, Battery,
   Monitor, Smartphone, Tablet, Watch, Headphones, Mic, Volume2,
   Download, Upload, Printer, Trash2, Edit, Eye, MessageSquare,
-  Calendar, Clock, Calculator, BookOpen,
+  Calendar, Clock, Calculator, BookOpen, StickyNote,
   type LucideIcon,
 } from "lucide-react";
 
@@ -23,7 +23,7 @@ const iconMap: Record<string, LucideIcon> = {
   Coffee, Gift, Award, Target, Flag, Map, Compass, Wifi, Battery,
   Monitor, Smartphone, Tablet, Watch, Headphones, Mic, Volume2,
   Download, Upload, Printer, Trash2, Edit, Eye, MessageSquare,
-  Calendar, Clock, Calculator, BookOpen,
+  Calendar, Clock, Calculator, BookOpen, StickyNote,
 };
 
 export const getIcon = (name: string): LucideIcon | undefined => iconMap[name];
