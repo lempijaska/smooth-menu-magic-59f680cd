@@ -123,7 +123,7 @@ const CardLayer = () => {
                   ? "ring-2 ring-primary shadow-xl border-primary/50"
                   : "border-border hover:shadow-xl"
               }`}
-              style={{ height: CARD_H }}
+              style={{ height: CARD_H, touchAction: "none" }}
             >
               <div className="flex items-center gap-2 text-muted-foreground mb-2">
                 <GripHorizontal className="h-4 w-4" />
